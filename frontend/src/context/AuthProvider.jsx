@@ -1,41 +1,3 @@
-// import { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { AuthContext } from './authContext';
-
-// const AuthProvider = ({ children }) => {
-// 	const [user, setUser] = useState(null);
-// 	const navigate = useNavigate();
-
-// 	useEffect(() => {
-// 		const token = localStorage.getItem('token');
-// 		if (token) {
-// 			setUser({ token });
-// 		}
-// 	}, []);
-
-// 	const login = (token) => {
-// 		localStorage.setItem('token', token);
-// 		setUser({ token });
-// 		navigate('/dashboard/home');
-// 	};
-
-// 	const logout = () => {
-// 		localStorage.removeItem('token');
-// 		setUser(null);
-// 		navigate('/signin');
-// 	};
-
-// 	return (
-// 		<AuthContext.Provider value={{ user, login, logout }}>
-// 			{children}
-// 		</AuthContext.Provider>
-// 	);
-// };
-
-// export default AuthProvider;
-
-
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -49,19 +11,21 @@ const AuthProvider = ({ children }) => {
 	useEffect(() => {
 		const verifyAuth = async () => {
 			try {
-				// Check for token in localStorage
-				const token = localStorage.getItem('token');
+				const token = localStorage.getItem("token");
+				const storedUser = localStorage.getItem("user");
 
-				if (token) {
-					// Verify with backend
-					const response = await axios.get('http://localhost:5000/api/auth/verify', {
+				if (token && storedUser) {
+					const userData = JSON.parse(storedUser);
+
+					// Verify token with backend
+					const response = await axios.get("http://localhost:3000/api/auth/verify", {
 						headers: {
-							Authorization: `Bearer ${token}`
-						}
+							Authorization: `Bearer ${token}`,
+						},
 					});
 
 					if (response.data.valid) {
-						setUser({ token });
+						setUser({ token, ...userData });
 					} else {
 						clearAuth();
 					}
@@ -77,20 +41,38 @@ const AuthProvider = ({ children }) => {
 		verifyAuth();
 	}, []);
 
+
+
+
 	const clearAuth = () => {
 		localStorage.removeItem('token');
 		setUser(null);
 	};
 
-	const login = (token) => {
-		localStorage.setItem('token', token);
-		setUser({ token });
-		navigate('/dashboard/home');
+	const login = (token, userData) => {
+		localStorage.setItem("token", token);
+		localStorage.setItem("user", JSON.stringify(userData)); // Store full user data
+
+		setUser({ token, ...userData });
+
+		// Redirect based on role
+		if (userData.role === "admin") {
+			navigate("/dashboard/home");
+		} else if (userData.role === "customer") {
+			navigate("/c/dashboard/home");
+		} else if (userData.role === "organiser") {
+			navigate("/o/dashboard/home");
+		} else {
+			navigate("/dashboard/home"); // Fallback
+		}
 	};
+
+
+
 
 	const logout = async () => {
 		try {
-			await axios.post('http://localhost:5000/api/auth/logout');
+			await axios.post('http://localhost:3000/api/auth/logout');
 		} catch (error) {
 			console.error("Logout error:", error);
 		}
