@@ -6,12 +6,17 @@ import {
   updateEvent,
   deleteEvent,
   upload,
+  registerForEvent,
+  getEventsByOrganiser,
+  getRegisteredEvents
 } from "../controllers/eventController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
+import organiserMiddleware from "../middleware/organiserMiddleware.js";
 
 const router = express.Router();
 
-// Create event with file upload
-router.post("/", upload.single("banner"), createEvent);
+// Create event with file upload (organiser only)
+router.post("/", authMiddleware, organiserMiddleware, upload.single("banner"), createEvent);
 
 // Get all events
 router.get("/", getAllEvents);
@@ -19,10 +24,19 @@ router.get("/", getAllEvents);
 // Get single event
 router.get("/:id", getEventById);
 
-// Update event with optional file upload
-router.put("/:id", upload.single("banner"), updateEvent);
+// Update event with optional file upload (organiser only)
+router.put("/:id", authMiddleware, organiserMiddleware, upload.single("banner"), updateEvent);
 
-// Delete event
-router.delete("/:id", deleteEvent);
+// Delete event (organiser only)
+router.delete("/:id", authMiddleware, organiserMiddleware, deleteEvent);
+
+// Register for event (customer only)
+router.post("/:eventId/register", authMiddleware, registerForEvent);
+
+// Get events by organiser
+router.get("/organiser/:organiserId", getEventsByOrganiser);
+
+// Get registered events for current user
+router.get("/user/registered", authMiddleware, getRegisteredEvents);
 
 export default router;

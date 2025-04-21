@@ -132,23 +132,16 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
         <SidebarItem
           icon={<ListAltIcon />}
           text="Event List & Details"
-          to="/dashboard/home"
+          to="/o/dashboard/home"
           sidebarOpen={sidebarOpen}
-          selected={location.pathname === "/dashboard/home"}
+          selected={location.pathname === "/o/dashboard/home"}
         />
-        {/* <SidebarItem
-          icon={<AddIcon />}
-          text="Create/Edit Event"
-          to="/dashboard/edit-event"
-          sidebarOpen={sidebarOpen}
-          selected={location.pathname === "/dashboard/edit-event"}
-        /> */}
         <SidebarItem
           icon={<TicketIcon />}
           text="Bookings & Tickets"
-          to="/dashboard/bookings"
+          to="/o/dashboard/bookings"
           sidebarOpen={sidebarOpen}
-          selected={location.pathname === "/dashboard/bookings"}
+          selected={location.pathname === "/o/dashboard/bookings"}
         />
       </List>
     </Box>

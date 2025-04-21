@@ -181,7 +181,7 @@ const LandingPage = () => {
                   size="large"
                   endIcon={<ArrowForwardIcon />}
                   component={Link}
-                  to="/dashboard"
+                  to="/signup"
                   sx={{
                     borderRadius: 28,
                     px: 4,
@@ -201,7 +201,7 @@ const LandingPage = () => {
                   color="primary"
                   size="large"
                   component={Link}
-                  to="/demo"
+                  to="/signin"
                   sx={{
                     borderRadius: 28,
                     px: 4,
@@ -214,7 +214,7 @@ const LandingPage = () => {
                     },
                   }}
                 >
-                  View Demo
+                  Sign In
                 </Button>
               </Box>
             </Grid>
@@ -323,7 +323,7 @@ const LandingPage = () => {
               color="primary"
               endIcon={<ArrowForwardIcon />}
               component={Link}
-              to="/dashboard"
+              to="/signin"
               sx={{
                 borderRadius: 28,
                 px: 3,

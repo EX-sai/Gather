@@ -132,16 +132,16 @@ const Sidebar = ({ sidebarOpen }) => {
         <SidebarItem
           icon={<ListAltIcon />}
           text="Dashboard"
-          to="/custdashboard/home"
+          to="/c/dashboard/home"
           sidebarOpen={sidebarOpen}
-          selected={location.pathname === "/custdashboard/home"}
+          selected={location.pathname === "/c/dashboard/home"}
         />
         <SidebarItem
           icon={<TicketIcon />}
           text="Events"
-          to="/custdashboard/events"
+          to="/c/dashboard/events"
           sidebarOpen={sidebarOpen}
-          selected={location.pathname === "/custdashboard/events"}
+          selected={location.pathname === "/c/dashboard/events"}
         />
       </List>
     </Box>

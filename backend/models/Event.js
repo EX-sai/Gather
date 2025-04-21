@@ -57,6 +57,17 @@ const Events = sequelize.define(
       allowNull: false,
       field: "location",
     },
+    organiserId: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      field: "organiser_id",
+      references: {
+        model: 'Users',
+        key: 'email'
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE' // Optional: also cascade deletes if organiser is removed
+    },
   },
   {
     timestamps: true,
